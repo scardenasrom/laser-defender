@@ -119,6 +119,7 @@ MonoBehaviour:
   projectile: {fileID: 1266190549479216, guid: 3552a433344ec8541895923767d8b5fb, type: 2}
   projectileSpeed: 10
   fireRate: 0.2
+  laserSound: {fileID: 8300000, guid: 3f2cbc3d4e08ca648b11aca8c0978f7b, type: 3}
 --- !u!212 &212095029856183360
 SpriteRenderer:
   m_ObjectHideFlags: 1

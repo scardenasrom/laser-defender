@@ -8,6 +8,7 @@ public class EnemyBehaviour : MonoBehaviour {
     public GameObject laser;
     public float laserSpeed = 5f;
     public float shotsPerSeconds = 0.5f;
+    public int pointsPerKill = 25;
 	
 	void Update () {
         float probability = Time.deltaTime * shotsPerSeconds;
@@ -28,6 +29,8 @@ public class EnemyBehaviour : MonoBehaviour {
             proyectile.Hit();
             maxNumberOfHits = maxNumberOfHits - proyectile.damage;
             if (maxNumberOfHits <= 0) {
+                ScoreKeeper scoreText = GameObject.Find("ScoreText").GetComponent<ScoreKeeper>();
+                scoreText.Score(pointsPerKill);
                 SimplePool.Despawn(gameObject);
             }
         }

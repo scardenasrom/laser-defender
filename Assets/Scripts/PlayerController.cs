@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject projectile;
     public float projectileSpeed = 10f;
     public float fireRate = 0.2f;
+    public AudioClip laserSound;
 
     private Rigidbody2D rb;
 
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
     void Fire() {
+        AudioSource.PlayClipAtPoint(laserSound, transform.position);
         Vector3 startPosition = transform.position + new Vector3(0, 0.6f, 0);
         GameObject spawnedProjectile = SimplePool.Spawn(projectile, startPosition, Quaternion.identity);
         spawnedProjectile.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed, 0);
@@ -63,6 +65,8 @@ public class PlayerController : MonoBehaviour {
             health -= proyectile.damage;
             proyectile.Hit();
             if (health <= 0) {
+                ScoreKeeper scoreText = GameObject.Find("ScoreText").GetComponent<ScoreKeeper>();
+                scoreText.ResetScore();
                 Destroy(gameObject);
             }
         }

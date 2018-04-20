@@ -11,13 +11,17 @@ public class EnemySpawner : MonoBehaviour {
     public float width = 10f;
     public float height = 5f;
 
+    public float spawnDelay = 0.5f;
+
+    public int pointsPerCompletion = 100;
+
     private float padding = 0.5f;
     private float minX;
     private float maxX;
 
     private bool movingRight = true;
 
-	void Start () {
+    void Start() {
         SimplePool.Preload(enemyProjectilePrefab, 20);
         SimplePool.Preload(basicEnemyPrefab, 10);
 
@@ -27,26 +31,46 @@ public class EnemySpawner : MonoBehaviour {
         minX = leftMost.x + padding;
         maxX = rightMost.x - padding;
 
+        //SpawnUntilFull();
         SpawnEnemyShips();
-	}
-	
-	void Update () {
-		if (movingRight) {
+    }
+
+    void Update() {
+        if (movingRight) {
             transform.position += Vector3.right * movementSpeed * Time.deltaTime;
         } else {
             transform.position += Vector3.left * movementSpeed * Time.deltaTime;
         }
-        
-        if (transform.position.x - (width/2) < minX) {
+
+        if (transform.position.x - (width / 2) < minX) {
             movingRight = true;
         } else if (transform.position.x + (width / 2) > maxX) {
             movingRight = false;
         }
 
         if (AllMembersDead()) {
-            Invoke("SpawnEnemyShips", 2f);
+            //Invoke("SpawnEnemyShips", 2f);
+            SpawnUntilFull();
         }
-	}
+    }
+
+    Transform NextFreePosition() {
+        foreach (Transform childPosition in transform) {
+            if (childPosition.childCount == 0 || !AnyTransformChildIsActive(childPosition)) {
+                return childPosition;
+            }
+        }
+        return null;
+    }
+
+    bool AnyTransformChildIsActive(Transform childPosition) {
+        for (int i = 0; i < childPosition.childCount; i++) {
+            if (childPosition.GetChild(i).gameObject.activeInHierarchy) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     void SpawnEnemyShips() {
         foreach (Transform child in transform) {
@@ -54,15 +78,29 @@ public class EnemySpawner : MonoBehaviour {
             spawnedEnemy.GetComponent<EnemyBehaviour>().maxNumberOfHits = 2;
             spawnedEnemy.transform.parent = child;
         }
-        CancelInvoke();
+        //CancelInvoke();
+    }
+
+    void SpawnUntilFull() {
+        Transform freePosition = NextFreePosition();
+        if (freePosition) {
+            GameObject spawnedEnemy = SimplePool.Spawn(basicEnemyPrefab, freePosition.transform.position, Quaternion.identity);
+            spawnedEnemy.GetComponent<EnemyBehaviour>().maxNumberOfHits = 2;
+            spawnedEnemy.transform.parent = freePosition;
+        }
+        if (NextFreePosition()) {
+            Invoke("SpawnUntilFull", spawnDelay);
+        }
     }
 
     bool AllMembersDead() {
         foreach (Transform childPosition in transform) {
-            if (childPosition.GetChild(0).gameObject.activeInHierarchy) {
+            if (childPosition.childCount > 0 && AnyTransformChildIsActive(childPosition)) {
                 return false;
             }
         }
+        ScoreKeeper scoreText = GameObject.Find("ScoreText").GetComponent<ScoreKeeper>();
+        scoreText.Score(pointsPerCompletion);
         return true;
     }
 
