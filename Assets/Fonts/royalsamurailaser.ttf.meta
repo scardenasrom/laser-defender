@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 5e1656669a8ad4a49ab48375f7ea3bc2
+timeCreated: 1524303152
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Royal Samurai Laser
+  fontNames:
+  - Royal Samurai Laser
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

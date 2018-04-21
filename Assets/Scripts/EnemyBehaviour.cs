@@ -9,6 +9,8 @@ public class EnemyBehaviour : MonoBehaviour {
     public float laserSpeed = 5f;
     public float shotsPerSeconds = 0.5f;
     public int pointsPerKill = 25;
+    public AudioClip laserSound;
+    public AudioClip deathSound;
 	
 	void Update () {
         float probability = Time.deltaTime * shotsPerSeconds;
@@ -18,6 +20,7 @@ public class EnemyBehaviour : MonoBehaviour {
 	}
 
     void Fire() {
+        AudioSource.PlayClipAtPoint(laserSound, transform.position);
         Vector3 startPosition = transform.position + new Vector3(0, -1f, 0);
         GameObject spawnedLaser = SimplePool.Spawn(laser, startPosition, Quaternion.identity);
         spawnedLaser.GetComponent<Rigidbody2D>().velocity = new Vector3(0, (-1) * laserSpeed, 0);
@@ -29,6 +32,7 @@ public class EnemyBehaviour : MonoBehaviour {
             proyectile.Hit();
             maxNumberOfHits = maxNumberOfHits - proyectile.damage;
             if (maxNumberOfHits <= 0) {
+                AudioSource.PlayClipAtPoint(deathSound, transform.position);
                 ScoreKeeper scoreText = GameObject.Find("ScoreText").GetComponent<ScoreKeeper>();
                 scoreText.Score(pointsPerKill);
                 SimplePool.Despawn(gameObject);

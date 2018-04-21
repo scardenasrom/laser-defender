@@ -41,9 +41,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7c1fdc6382e394088b3ecad8cfd89a4f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -121,6 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de01848f3a22f4c029498cef005440ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startMenuClip: {fileID: 8300000, guid: d15be6b184b2738439498c8d50c310c0, type: 3}
+  gameClip: {fileID: 8300000, guid: e956fb46120d22042b566dda1eeed618, type: 3}
+  endScreenClip: {fileID: 8300000, guid: 11f6f25592d29734a91c120d91f0dba3, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -66,8 +66,9 @@ public class PlayerController : MonoBehaviour {
             proyectile.Hit();
             if (health <= 0) {
                 ScoreKeeper scoreText = GameObject.Find("ScoreText").GetComponent<ScoreKeeper>();
-                scoreText.ResetScore();
+                //scoreText.ResetScore();
                 Destroy(gameObject);
+                GameObject.Find("LevelManager").GetComponent<GameManager>().LoadLevel("Win Screen");
             }
         }
     }
